@@ -27,12 +27,15 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
     "plugin:node/recommended",
     "airbnb-base",
     "prettier"
   ],
-  "plugins": ["import"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "node/no-missing-import": "off",
     "import/extensions": "off",
