@@ -1,0 +1,3 @@
+export const er404: string = `Route no found` 
+export const er400: string = `Sory, can not do that`
+export const er500: string = `Something broke`
