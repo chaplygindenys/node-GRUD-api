@@ -1,8 +1,13 @@
-import { RandomUUIDOptions } from 'crypto';
+import { v4 as uuidV4 } from 'uuid';
 
-export interface User {
-  id: string | RandomUUIDOptions;
+export type User = {
+  id: string | typeof uuidV4;
   name: string;
   age: number;
-  hobbies: string | string[] | [];
-}
+  hobbies: string[] | [];
+};
+export type UserWithoutId = {
+  name: string;
+  age: number;
+  hobbies: string[] | [];
+};
