@@ -1,3 +1,4 @@
+import console from 'console';
 import http from 'http';
 import { validate as uuidValidate } from 'uuid';
 
@@ -11,6 +12,7 @@ import {
 } from '../models/user-model.js';
 import { User, UserWithoutId } from '../types/user.js';
 import { loader } from '../utils/loader.js';
+import { newUserWithoutId } from '../utils/new-user.js';
 
 // @dest  Get all users
 // @rout  GET  /api/users
@@ -28,6 +30,7 @@ export const getUsers = async (
       res.end(JSON.stringify(er404));
     }
   } catch (error) {
+    console.log(error);
     res.writeHead(500, { 'Content-type': 'application/json' });
     res.end(JSON.stringify(er500));
   }
@@ -54,6 +57,7 @@ export const getbyId = async (
       res.end(JSON.stringify(er400));
     }
   } catch (error) {
+    console.log(error);
     res.writeHead(500, { 'Content-type': 'application/json' });
     res.end(JSON.stringify(er500));
   }
@@ -66,33 +70,29 @@ export const createUser = async (
 ): Promise<void> => {
   try {
     const body: string | undefined = await loader(req);
-    const { name, age, hobbies } = JSON.parse(body);
-    const newUser = {
-      name: name,
-      age: age,
-      hobbies: hobbies,
-    };
-    if (
-      typeof newUser.name === 'string' &&
-      typeof newUser.age === 'number' &&
-      Array.isArray(newUser.hobbies)
-    ) {
-      console.log(newUser);
-      const user = await createWithId(newUser);
-      if (user) {
-        res.writeHead(201, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(user));
-      } else {
-        res.writeHead(400, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(erpost400));
-      }
+    if (!body) {
+      throw '400';
+    }
+    const newUser: UserWithoutId | undefined = newUserWithoutId(body);
+    if (!newUser) {
+      throw '400';
+    }
+    const user = await createWithId(newUser);
+    if (user) {
+      res.writeHead(201, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(user));
     } else {
-      res.writeHead(400, { 'Content-type': 'application/json' });
-      res.end(JSON.stringify(erpost400));
+      throw '400';
     }
   } catch (error) {
-    res.writeHead(500, { 'Content-type': 'application/json' });
-    res.end(JSON.stringify(er500));
+    if (error === '400') {
+      res.writeHead(400, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(erpost400));
+    } else {
+      console.log(error);
+      res.writeHead(500, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er500));
+    }
   }
 };
 // @dest  Update singl user
@@ -103,45 +103,42 @@ export const updatebyId = async (
   id: string
 ): Promise<void> => {
   try {
-    if (uuidValidate(id)) {
-      const user: User | undefined = await findById(id);
-      if (user) {
-        const body: string | undefined = await loader(req);
-        const { name, age, hobbies } = JSON.parse(body);
-        const newUser = {
-          name: name,
-          age: age,
-          hobbies: hobbies,
-        };
-        if (
-          typeof newUser.name === 'string' &&
-          typeof newUser.age === 'number' &&
-          Array.isArray(newUser.hobbies)
-        ) {
-          console.log(newUser);
-          const upUser = await updateById(id, newUser);
-          if (upUser) {
-            res.writeHead(200, { 'Content-type': 'application/json' });
-            res.end(JSON.stringify(upUser));
-          } else {
-            res.writeHead(500, { 'Content-type': 'application/json' });
-            res.end(JSON.stringify(er500));
-          }
-        } else {
-          res.writeHead(200, { 'Content-type': 'application/json' });
-          res.end(JSON.stringify(user));
-        }
-      } else {
-        res.writeHead(404, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(er404));
-      }
+    if (!uuidValidate(id)) {
+      throw '400';
+    }
+    const user: User | undefined = await findById(id);
+    if (!user) {
+      throw '404';
+    }
+
+    const body: string | undefined = await loader(req);
+    if (!body) {
+      throw '400';
+    }
+    const newUser: UserWithoutId | undefined = newUserWithoutId(body);
+    if (!newUser) {
+      throw '400';
+    }
+    console.log(newUser);
+    const upUser = await updateById(id, newUser);
+    if (upUser) {
+      res.writeHead(200, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(upUser));
     } else {
+      res.writeHead(500, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er500));
+    }
+  } catch (err) {
+    if (err === '404') {
+      res.writeHead(404, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er404));
+    } else if (err === '400') {
       res.writeHead(400, { 'Content-type': 'application/json' });
       res.end(JSON.stringify(er400));
+    } else {
+      res.writeHead(500, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er500));
     }
-  } catch (error) {
-    res.writeHead(500, { 'Content-type': 'application/json' });
-    res.end(JSON.stringify(er500));
   }
 };
 // @dest  Delete singl user
@@ -155,8 +152,6 @@ export const deletebyId = async (
     if (uuidValidate(id)) {
       const user: User | undefined = await findById(id);
       if (user) {
-        console.log(id);
-        console.log(await deleteById(id));
         res.writeHead(204, { 'Content-type': 'application/json' });
         res.end();
       } else {
@@ -168,6 +163,7 @@ export const deletebyId = async (
       res.end(JSON.stringify(er400));
     }
   } catch (error) {
+    console.log(error);
     res.writeHead(500, { 'Content-type': 'application/json' });
     res.end(JSON.stringify(er500));
   }
