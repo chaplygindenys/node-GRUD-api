@@ -19,8 +19,6 @@ describe('GET /api/users', () => {
     //     });
     // });
 
-    // With a GET api/user/{userId} request, we try to get the created record by its id (the created record is expected)
-    // We try to update the created record with a PUT api/users/{userId}request (a response is expected containing an updated object with the same id)
     // With a DELETE api/users/{userId} request, we delete the created object by id (confirmation of successful deletion is expected)
     // With a GET api/users/{userId} request, we are trying to get a deleted object by id (expected answer is that there is no such object)
   });
