@@ -1,7 +1,7 @@
 import console from 'console';
 import { validate as uuidValidate } from 'uuid';
 import { er400, er404, er500, erpost400 } from '../config.js';
-import { createWithId, deleteById, findAll, findById, updateById, } from '../models/user-model.js';
+import { createWithId, findAll, findById, updateById, } from '../models/user-model.js';
 import { loader } from '../utils/loader.js';
 import { newUserWithoutId } from '../utils/new-user.js';
 export const getUsers = async (req, res) => {
@@ -125,8 +125,6 @@ export const deletebyId = async (req, res, id) => {
         if (uuidValidate(id)) {
             const user = await findById(id);
             if (user) {
-                console.log(id);
-                console.log(await deleteById(id));
                 res.writeHead(204, { 'Content-type': 'application/json' });
                 res.end();
             }

@@ -16,7 +16,7 @@ const cl = (str: {} | string | number | []) => {
 };
 let i: number = 0;
 const PORT = process.env.PORT || '5000';
-const server = createServer((req, res) => {
+export const server = createServer((req, res) => {
   cl(`count res:${i++} to port ${PORT}`);
   if (req.url) {
     const reqArr: string[] = req.url.split('/');
