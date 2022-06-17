@@ -1,4 +1,3 @@
-import { Console } from 'console';
 import http from 'http';
 import { validate, v4 } from 'uuid';
 
@@ -9,15 +8,12 @@ let workHobbies = ['a'];
 
 const loaderResponse = async (url) => {
   return new Promise((resolve, reject) => {
-    console.log(url);
     http.get(`${url}`, (res) => {
       resolve(res);
     });
   });
 };
 const loaderPupPostResponse = async (options, data) => {
-  console.log(options);
-  console.log(data);
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
       resolve(res);
@@ -30,7 +26,6 @@ const loaderPupPostResponse = async (options, data) => {
   });
 };
 const loaderDeleteResponse = async (options) => {
-  console.log(options);
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
       resolve(res);
@@ -43,7 +38,6 @@ const loaderDeleteResponse = async (options) => {
 };
 const loaderResponseById = async (id) => {
   return new Promise((resolve, reject) => {
-    console.log(id);
     http.get(`http://localhost:4000/api/users/${id}`, (res) => {
       resolve(res);
     });
@@ -62,7 +56,6 @@ const PromiseBody = async (response) => {
   });
 };
 describe('A', () => {
-  console.log('A');
   it('should Get all records with a GET api/users request (an empty array is expected)', async () => {
     const url = 'http://localhost:4000/api/users';
     let ResBoby = '';
@@ -78,14 +71,12 @@ describe('A', () => {
   });
 });
 describe('B', () => {
-  console.log('B');
   it('should A new object is created by a POST api/users request (a response containing newly created record is expected) ', async () => {
     const data = JSON.stringify({
       name: workName,
       age: workAge,
       hobbies: workHobbies,
     });
-    console.log(data);
     const options = {
       host: '127.0.0.1',
       port: 4000,
@@ -136,14 +127,6 @@ describe('D', () => {
       age: 100,
       hobbies: ['NEWHobby'],
     };
-
-    // const response = await loaderResponse(url);
-    // expect(response.statusCode).toBe(200);
-    // const resBody = await PromiseBody(response);
-    // console.log(resBody);
-    // const bodyMassive = JSON.parse(resBody);
-    // console.log(bodyMassive[0].id);
-
     const options = {
       host: '127.0.0.1',
       port: 4000,
@@ -170,7 +153,6 @@ describe('E', () => {
   it('should: With a DELETE api/users/{userId} request, we delete the created object by id (confirmation of successful deletion is expected) ', async () => {
     const url = 'http://localhost:4000/api/users';
     const workid = workId;
-    console.log(`DELETE${workId}`);
     const options = {
       host: '127.0.0.1',
       port: 4000,
