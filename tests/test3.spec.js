@@ -1,3 +1,9 @@
+import {
+  loaderDeleteResponse,
+  loaderPupPostResponse,
+  loaderResponse,
+  loaderResponseById,
+} from './test.spec.js';
 describe('A ', () => {
   it('should:  2 new objects created by POST api/users with  request ( 2 responses containing  newly created records with diferent id is expected)  ', () => {});
 });

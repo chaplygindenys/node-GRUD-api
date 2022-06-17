@@ -43,23 +43,26 @@ export const getbyId = async (
   id: string
 ): Promise<void> => {
   try {
-    if (uuidValidate(id)) {
-      const user = await findById(id);
-      if (user) {
-        res.writeHead(200, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(user));
-      } else {
-        res.writeHead(404, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(er404));
-      }
-    } else {
+    if (!uuidValidate(id)) {
+      throw '400';
+    }
+    const user = await findById(id);
+    if (!user) {
+      throw '404';
+    }
+    res.writeHead(200, { 'Content-type': 'application/json' });
+    res.end(JSON.stringify(user));
+  } catch (err) {
+    if (err === '404') {
+      res.writeHead(404, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er404));
+    } else if (err === '400') {
       res.writeHead(400, { 'Content-type': 'application/json' });
       res.end(JSON.stringify(er400));
+    } else {
+      res.writeHead(500, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er500));
     }
-  } catch (error) {
-    console.log(error);
-    res.writeHead(500, { 'Content-type': 'application/json' });
-    res.end(JSON.stringify(er500));
   }
 };
 // @dest  Create a Product
@@ -149,23 +152,26 @@ export const deletebyId = async (
   id: string
 ): Promise<void> => {
   try {
-    if (uuidValidate(id)) {
-      const user: User | undefined = await findById(id);
-      if (user) {
-        deleteById(id);
-        res.writeHead(204, { 'Content-type': 'application/json' });
-        res.end();
-      } else {
-        res.writeHead(404, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(er404));
-      }
-    } else {
+    if (!uuidValidate(id)) {
+      throw '400';
+    }
+    const user: User | undefined = await findById(id);
+    if (!user) {
+      throw '404';
+    }
+    deleteById(id);
+    res.writeHead(204, { 'Content-type': 'application/json' });
+    res.end();
+  } catch (err) {
+    if (err === '404') {
+      res.writeHead(404, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er404));
+    } else if (err === '400') {
       res.writeHead(400, { 'Content-type': 'application/json' });
       res.end(JSON.stringify(er400));
+    } else {
+      res.writeHead(500, { 'Content-type': 'application/json' });
+      res.end(JSON.stringify(er500));
     }
-  } catch (error) {
-    console.log(error);
-    res.writeHead(500, { 'Content-type': 'application/json' });
-    res.end(JSON.stringify(er500));
   }
 };

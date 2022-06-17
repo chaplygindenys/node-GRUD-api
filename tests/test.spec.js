@@ -6,14 +6,14 @@ let workId = '';
 let workAge = 1;
 let workHobbies = ['a'];
 
-const loaderResponse = async (url) => {
+export const loaderResponse = async (url) => {
   return new Promise((resolve, reject) => {
     http.get(`${url}`, (res) => {
       resolve(res);
     });
   });
 };
-const loaderPupPostResponse = async (options, data) => {
+export const loaderPupPostResponse = async (options, data) => {
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
       resolve(res);
@@ -25,7 +25,7 @@ const loaderPupPostResponse = async (options, data) => {
     req.end();
   });
 };
-const loaderDeleteResponse = async (options) => {
+export const loaderDeleteResponse = async (options) => {
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
       resolve(res);
@@ -36,14 +36,14 @@ const loaderDeleteResponse = async (options) => {
     req.end();
   });
 };
-const loaderResponseById = async (id) => {
+export const loaderResponseById = async (id) => {
   return new Promise((resolve, reject) => {
     http.get(`http://localhost:4000/api/users/${id}`, (res) => {
       resolve(res);
     });
   });
 };
-const PromiseBody = async (response) => {
+export const PromiseBody = async (response) => {
   let ResBoby = '';
   return new Promise((resolve, reject) => {
     response.setEncoding('utf8');
@@ -147,7 +147,6 @@ describe('D', () => {
 });
 describe('E', () => {
   it('should: With a DELETE api/users/{userId} request, we delete the created object by id (confirmation of successful deletion is expected) ', async () => {
-    const url = 'http://localhost:4000/api/users';
     const workid = workId;
     const options = {
       host: '127.0.0.1',
