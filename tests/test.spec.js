@@ -106,10 +106,6 @@ describe('C', () => {
   it('should: With a GET api/user/{userId} request, we try to get the created record by its id (the created record is expected)', async () => {
     const url = 'http://localhost:4000/api/users';
 
-    // const response = await loaderResponse(url);
-    // const resBody = await PromiseBody(response);
-    // const { id, name, age, hobbies } = JSON.parse(resBody);
-
     const responseById = await loaderResponseById(workId);
     expect(responseById.statusCode).toBe(200);
     const resBodyById = await PromiseBody(responseById);
