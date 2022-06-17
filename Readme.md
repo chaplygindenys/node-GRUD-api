@@ -10,7 +10,7 @@ Your task is to implement simple CRUD API using in-memory database underneath.
 ## Implementation details
 
 TESTS SHOULD BE STARTED WITH UP SERVER IN SECOND TERMINAL!!!!
-ТУСТЫ ДОЛЖНЫ ЗАПУСКАТЬСЯ ТОЛЬКО НА ПОДНЯТОМ ВО ВТОРОМ ТЕРМИНАЛЕ СЕРВАКЕ!!
+ТЕСТЫ ДОЛЖНЫ ЗАПУСКАТЬСЯ ТОЛЬКО НА ПОДНЯТОМ ВО ВТОРОМ ТЕРМИНАЛЕ СЕРВАКЕ!!
 
 1. Implemented endpoint `api/users`:
    - **GET** `api/users` is used to get all persons
