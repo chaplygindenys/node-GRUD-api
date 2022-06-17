@@ -152,6 +152,7 @@ export const deletebyId = async (
     if (uuidValidate(id)) {
       const user: User | undefined = await findById(id);
       if (user) {
+        deleteById(id);
         res.writeHead(204, { 'Content-type': 'application/json' });
         res.end();
       } else {
