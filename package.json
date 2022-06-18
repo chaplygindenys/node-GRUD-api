@@ -5,12 +5,13 @@
   "type": "module",
   "main": "build/server.js",
   "scripts": {
-    "start:prode": "node build/server.js",
+    "start:prode": "tsc -p tsconfig.json && node build/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
     "build": "tsc -p tsconfig.json",
     "dev": "npx nodemon src/server.ts",
     "fix-ts": "eslint --fix 'project-with-typescript/*.ts'",
-    "test":"NODE_OPTIONS=--experimental-vm-modules npx jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "multi": "tsc -p tsconfig.json && node build/multi-server.js"
   },
   "author": "Chaplygin Denys",
   "license": "ISC",

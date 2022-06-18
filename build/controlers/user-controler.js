@@ -24,26 +24,29 @@ export const getUsers = async (req, res) => {
 };
 export const getbyId = async (req, res, id) => {
     try {
-        if (uuidValidate(id)) {
-            const user = await findById(id);
-            if (user) {
-                res.writeHead(200, { 'Content-type': 'application/json' });
-                res.end(JSON.stringify(user));
-            }
-            else {
-                res.writeHead(404, { 'Content-type': 'application/json' });
-                res.end(JSON.stringify(er404));
-            }
+        if (!uuidValidate(id)) {
+            throw '400';
         }
-        else {
+        const user = await findById(id);
+        if (!user) {
+            throw '404';
+        }
+        res.writeHead(200, { 'Content-type': 'application/json' });
+        res.end(JSON.stringify(user));
+    }
+    catch (err) {
+        if (err === '404') {
+            res.writeHead(404, { 'Content-type': 'application/json' });
+            res.end(JSON.stringify(er404));
+        }
+        else if (err === '400') {
             res.writeHead(400, { 'Content-type': 'application/json' });
             res.end(JSON.stringify(er400));
         }
-    }
-    catch (error) {
-        console.log(error);
-        res.writeHead(500, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(er500));
+        else {
+            res.writeHead(500, { 'Content-type': 'application/json' });
+            res.end(JSON.stringify(er500));
+        }
     }
 };
 export const createUser = async (req, res) => {
@@ -122,26 +125,29 @@ export const updatebyId = async (req, res, id) => {
 };
 export const deletebyId = async (req, res, id) => {
     try {
-        if (uuidValidate(id)) {
-            const user = await findById(id);
-            if (user) {
-                deleteById(id);
-                res.writeHead(204, { 'Content-type': 'application/json' });
-                res.end();
-            }
-            else {
-                res.writeHead(404, { 'Content-type': 'application/json' });
-                res.end(JSON.stringify(er404));
-            }
+        if (!uuidValidate(id)) {
+            throw '400';
         }
-        else {
+        const user = await findById(id);
+        if (!user) {
+            throw '404';
+        }
+        deleteById(id);
+        res.writeHead(204, { 'Content-type': 'application/json' });
+        res.end();
+    }
+    catch (err) {
+        if (err === '404') {
+            res.writeHead(404, { 'Content-type': 'application/json' });
+            res.end(JSON.stringify(er404));
+        }
+        else if (err === '400') {
             res.writeHead(400, { 'Content-type': 'application/json' });
             res.end(JSON.stringify(er400));
         }
-    }
-    catch (error) {
-        console.log(error);
-        res.writeHead(500, { 'Content-type': 'application/json' });
-        res.end(JSON.stringify(er500));
+        else {
+            res.writeHead(500, { 'Content-type': 'application/json' });
+            res.end(JSON.stringify(er500));
+        }
     }
 };
