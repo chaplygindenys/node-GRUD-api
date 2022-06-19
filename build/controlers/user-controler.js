@@ -97,7 +97,6 @@ export const updatebyId = async (req, res, id) => {
         if (!newUser) {
             throw '400';
         }
-        console.log(newUser);
         const upUser = await updateById(id, newUser);
         if (upUser) {
             res.writeHead(200, { 'Content-type': 'application/json' });
