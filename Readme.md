@@ -9,6 +9,13 @@ Your task is to implement simple CRUD API using in-memory database underneath.
 
 ## Implementation details
 
+POST - PUT JSON :
+{
+"name":"name",
+"age":100,
+"hobbies":["a","s"]
+}
+
 TESTS SHOULD BE STARTED WITH UP SERVER IN SECOND TERMINAL!!!!
 ТЕСТЫ ДОЛЖНЫ ЗАПУСКАТЬСЯ ТОЛЬКО НА ПОДНЯТОМ ВО ВТОРОМ ТЕРМИНАЛЕ СЕРВАКЕ!!
 
@@ -32,7 +39,7 @@ TESTS SHOULD BE STARTED WITH UP SERVER IN SECOND TERMINAL!!!!
      - Server answer with `status code` **404** and corresponding message if record with `id === userId` doesn't exist
 2. Users are stored as `objects` that have following properties:
    - `id` — unique identifier (`string`, `uuid`) generated on server side
-   - `username` — user's name (`string`, **required**)
+   - `name` — user's name (`string`, **required**)
    - `age` — user's age (`number`, **required**)
    - `hobbies` — user's hobbies (`array` of `strings` or empty `array`, **required**)
 3. Requests to non-existing endpoints (e.g. `some-non/existing/resource`) be handled (server answer with `status code` **404** and corresponding human-friendly message)
